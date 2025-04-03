@@ -1,4 +1,4 @@
-name: Deploy via Git on EC2
+name: Deploy via Git Clone on EC2
 
 on:
   push:
@@ -15,13 +15,30 @@ jobs:
         echo "${{ secrets.EC2_KEY }}" | base64 -d > ec2-key.pem
         chmod 600 ec2-key.pem
 
-    - name: Deploy to EC2 via SSH
+    - name: SSH and Deploy
       run: |
         ssh -i ec2-key.pem -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
-          cd ~/M3-Diary
+          # 필요한 패키지 설치
+          sudo apt update
+          sudo apt install -y git
+
+          # git clone (없으면)
+          if [ ! -d "M3-Diary" ]; then
+            git clone https://github.com/${{ secrets.REPO_URL }} M3-Diary
+          fi
+
+          cd M3-Diary
+
+          # 최신 코드로 업데이트
           git pull origin main
+
+          # gradle 빌드 (테스트 생략 + 실행 권한 부여)
           chmod +x ./gradlew
           ./gradlew clean build -x test
+
+          # 기존 프로세스 종료 (있으면)
           pkill -f 'java -jar' || true
+
+          # 백그라운드 실행
           nohup java -jar build/libs/M3-Diary-0.0.1-SNAPSHOT.jar > app.log 2>&1 &
         EOF
