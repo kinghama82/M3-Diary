@@ -36,11 +36,30 @@ jobs:
           # gradle 빌드 (테스트 생략 + 실행 권한 부여)
           chmod +x ./gradlew
           ./gradlew clean build -x test
+  
+          # JAR 백업
+          mkdir -p ~/backup
+          if [ -f build/libs/M3-Diary-0.0.1-SNAPSHOT.jar ]; then
+          cp build/libs/M3-Diary-0.0.1-SNAPSHOT.jar ~/backup/prev.jar
+          fi
 
           # 기존 프로세스 종료 (있으면)
           pkill -f 'java -jar' || true
 
           # 백그라운드 실행
           nohup java -jar build/libs/M3-Diary-0.0.1-SNAPSHOT.jar > app.log 2>&1 &
+          sleep 10
+  
+          # 헬스체크
+          if curl -s --fail http://localhost:8080/health; then
+          echo "✅ 배포 성공" >> app.log
+          else
+          echo "❌ 배포 실패. 롤백 중..." >> app.log
+          pkill -f 'java -jar' || true
+          nohup java -jar ~/backup/prev.jar > app.log 2>&1 &
+          echo "🔁 이전 버전으로 롤백됨" >> app.log
+          fi
+  
+  
           tail -n 100 app.log
         EOF
