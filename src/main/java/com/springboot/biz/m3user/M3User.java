@@ -14,12 +14,26 @@ public class M3User {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Integer userSeq;
+
+	private String username; // 아이디
 	
-	private String email;
+	private String email; // 이메일
 	
-	private String nickname;
+	private String nickname; // 이름
 	
-	private String password;
+	private String password; // 비밀번호
+
+	private String password2; // 비밀번호 확인
+
+	private String phone; //유저 폰번호
+
+	private String birthday; //유저 생일
+
+	private String address;  //주소
+
+	private String addressDetail;  //상세주소
+
+
 
 }
