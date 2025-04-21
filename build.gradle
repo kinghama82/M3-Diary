@@ -36,6 +36,7 @@ dependencies {
 	implementation 'org.mariadb.jdbc:mariadb-java-client:3.5.2'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client' //oAuth2로그인 (네이버로그인용)
 }
 
 tasks.named('test') {
