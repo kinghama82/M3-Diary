@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- ✅ 제일 먼저 jQuery 로드 -->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	
+    <!-- CSS 링크 -->
+    <link rel="stylesheet" type="text/css" th:href="@{/index.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
+
+    <!-- JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/locales/bootstrap-datepicker.ko.min.js"></script>
+
+    <title>M3 취업 다이어리</title>
+</head>
+<body>
+
+<!-- 여기에 공통 헤더/네비바 없이???하지요~~ -->
+<header class="text-white p-3">
+    <div class="container">
+        <h2>M3 취업 다이어리</h2>
+    </div>
+</header>
+
+<!-- 개별 페이지의 콘텐츠가 여기에 삽입하셔요!!!! -->
+<main class="container my-4">
+    <th:block layout:fragment="content"></th:block>
+</main>
+
+<!-- 공통 푸터 -->
+<footer class="bg-light text-center p-3 mt-5">
+    <p>© 2025 M3 Team</p>
+</footer>
+
+</body>
+</html>

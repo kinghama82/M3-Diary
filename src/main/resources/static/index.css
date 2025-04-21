@@ -1,0 +1,36 @@
+body {
+    font-family: 'Arial';
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #ffc5dc;
+    padding: 15px;
+    color: white;
+    text-align: center;
+}
+
+.login-box {
+    width: 300px;
+    margin: 30px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px #ccc;
+}
+
+.session-container {
+    display: flex;
+    justify-content: space-around;
+    margin: 40px;
+}
+
+.session-box {
+    width: 30%;
+    background-color: #f2f2f2;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 1px 1px 8px #bbb;
+    text-align: center;
+}
