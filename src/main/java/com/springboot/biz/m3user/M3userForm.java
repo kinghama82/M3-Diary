@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 public class M3userForm {
 
-
+//
     @Size(min =3, max=20)
     @NotEmpty(message = "아이디를 입력하세요")
     private  String username;
