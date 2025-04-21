@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="kr">
 <head>
@@ -10,46 +9,42 @@
 <h1>회원가입 페이지</h1>
 
 <div>
-<!--수정-->
-    <form th:action="@{/user/signup}" method="post" th:object="${M3userForm}">
+    <form th:action="@{/user/signup}" method="post" th:object="${m3userForm}">
+        <!-- <div th:replace="~{form_errors :: formErrorsFragment}"></div> -->
 
-       <!-- <div th:replace="~{form_errors :: formErrorsFragment}"></div>-->
+        <div>
+            <label>아이디</label>
+            <input type="text" th:field="*{username}"/>
 
-        <form th:action="@{/user/signup}" method="post" th:object="${m3userForm}">
-            <div>
-                <label>아이디</label>
-                <input type="text" th:field="*{username}"/>
+            <label>비밀번호</label>
+            <input type="password" th:field="*{password}"/>
 
-                <label>비밀번호</label>
-                <input type="password" th:field="*{password}"/>
+            <label>비밀번호 확인</label>
+            <input type="password" th:field="*{password2}"/>
+        </div>
 
-                <label>비밀번호 확인</label>
-                <input type="password" th:field="*{password2}"/>
-            </div>
+        <div>
+            <label>이름</label>
+            <input type="text" th:field="*{nickname}"/>
 
-            <div>
-                <label>이름</label>
-                <input type="text" th:field="*{nickname}"/>
+            <label>이메일</label>
+            <input type="email" th:field="*{email}"/>
+        </div>
 
-                <label>이메일</label>
-                <input type="email" th:field="*{email}"/>
-            </div>
+        <label>핸드폰번호</label>
+        <input type="text" th:field="*{phone}"/>
 
-            <label>핸드폰번호</label>
-            <input type="text" th:field="*{phone}"/>
+        <label>생년월일</label>
+        <input type="text" th:field="*{birthday}"/>
 
-            <label>생년월일</label>
-            <input type="text" th:field="*{birthday}"/>
+        <label>주소</label>
+        <input type="text" th:field="*{address}"/>
 
-            <label>주소</label>
-            <input type="text" th:field="*{address}"/>
+        <label>상세주소</label>
+        <input type="text" th:field="*{addressDetail}"/>
 
-            <label>상세주소</label>
-            <input type="text" th:field="*{addressDetail}"/>
-
-            <input type="submit" value="회원가입"/>
-        </form>
-
+        <input type="submit" value="회원가입"/>
+    </form>
 </div>
 </body>
 </html>
