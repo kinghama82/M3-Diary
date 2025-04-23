@@ -34,9 +34,15 @@ public class M3Controller {
             return "signup";
         }
         try {
-            m3Service.create(m3userForm.getUsername(),m3userForm.getPassword(),m3userForm.getNickname(),
-                    m3userForm.getEmail(),m3userForm.getBirthday(),
-                    m3userForm.getAddress(),m3userForm.getPhone(),m3userForm.getAddressDetail(), m3userForm.getPassword2());
+            m3Service.create(m3userForm.getEmail(),
+                    m3userForm.getPassword(),
+                    m3userForm.getNickname(),
+                    m3userForm.getPhone(),
+                    m3userForm.getBirthday(),
+                    m3userForm.getAddress(),
+                    m3userForm.getAddressDetail(),
+                    m3userForm.getUsername(),
+                    m3userForm.getPassword2());
         }catch (DataIntegrityViolationException e) {
             e.printStackTrace();
 
@@ -52,7 +58,8 @@ public class M3Controller {
     }
     @GetMapping("/login")
     public String loginpage() {
-        return "login";
+
+        return "mainPage";
     }
 
 

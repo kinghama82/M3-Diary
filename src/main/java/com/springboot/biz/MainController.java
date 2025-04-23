@@ -10,4 +10,10 @@ public class MainController {
 	public String root() {
 		return "mainPage";
 	}
+
+	@GetMapping("/main")
+	public String main() {
+		return "mainPage"; // templates/mainPage.html 렌더링
+	}
+
 }

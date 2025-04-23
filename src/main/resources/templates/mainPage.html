@@ -24,8 +24,8 @@
       </div>
 
 
-      <!-- 오른쪽 로그인 폼 -->
-      <div class="col-md-7 bg-light p-4 d-flex flex-column justify-content-center">
+      <!-- 로그인 안된 상태: anonymousUser or null -->
+      <div th:if="${#authentication == null or #authentication.name == 'anonymousUser'}">
         <form th:action="@{/user/login}" method="post">
           <h3 class="mb-4">로그인</h3>
 
@@ -40,13 +40,31 @@
           </div>
 
           <button type="submit" class="btn btn-dark">로그인</button>
+
+          <!-- 네이버 로그인 버튼 -->
+          <div class="text-center mt-4">
+            <a href="/oauth2/authorization/naver" class="naver-login-btn">
+              네이버 로그인
+            </a>
+          </div>
         </form>
       </div>
 
+      <!-- 로그인 된 경우 -->
+      <div th:if="${#authentication != null and #authentication.name != 'anonymousUser'}">
+        <div class="text-center">
+          <p><b th:text="${#authentication.name}"></b> 님 환영합니다!</p>
+          <a href="/logout" class="btn btn-outline-secondary btn-sm">로그아웃</a>
+        </div>
+      </div>
+
+      <div class="text-center mt-3">
+        <a href="/user/signup" class="btn btn-outline-primary btn-sm">
+          회원가입
+        </a>
+
+
+
     </div>
-  </div>
-
-
-</div>
 </body>
 </html>
