@@ -3,15 +3,16 @@
       layout:decorate="~{layout/layout}">
 <head>
   <title>mainPage</title>
+  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
 </head>
 <body>
-<div layout:fragment="content" class="container my-2">
+<div layout:fragment="content" class="container my-5">
 
-  <div class="d-flex justify-content-center" style="margin-top: 200px;">
-    <div class="row border rounded" style="max-width: 800px; width: 100%; height: 330px;">
-
+  <div class="d-flex justify-content-center">
+    <div class="row border rounded shadow" style="max-width: 700px; width: 100%; height: 410px;">
+<!--버튼 만들고 높이 조절해서 박스 칸 맞춰주세용-->
       <!-- 왼쪽 세션 박스 -->
-      <div class="col-md-5 d-flex flex-column justify-content-between p-0"><!--items-center 센터-->
+      <div class="col-md-5 d-flex flex-column justify-content-between p-0">
         <div class="flex-fill bg-success text-white text-center d-flex align-items-center justify-content-center">
           <div>클릭!<br><small>사람인 or 잡코리아</small></div>
         </div>
@@ -23,48 +24,46 @@
         </div>
       </div>
 
+      <!-- 오른쪽 로그인/유저 정보 박스 -->
+      <div class="col-md-7 p-4 d-flex flex-column justify-content-between">
 
-      <!-- 로그인 안된 상태: anonymousUser or null -->
-      <div th:if="${#authentication == null or #authentication.name == 'anonymousUser'}">
-        <form th:action="@{/user/login}" method="post">
-          <h3 class="mb-4">로그인</h3>
+        <!-- 로그인 안 된 경우 -->
+        <div th:if="${#authentication == null or #authentication.name == 'anonymousUser'}">
+          <form th:action="@{/user/login}" method="post">
+            <h3 class="mb-4 text-center">로그인</h3>
 
-          <div class="mb-3">
-            <label for="username" class="form-label">아이디</label>
-            <input type="text" id="username" name="username" class="form-control">
-          </div>
+            <div class="mb-3">
+              <label for="username" class="form-label">아이디</label>
+              <input type="text" id="username" name="username" class="form-control" required>
+            </div>
 
-          <div class="mb-3">
-            <label for="password" class="form-label">비밀번호</label>
-            <input type="password" id="password" name="password" class="form-control">
-          </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">비밀번호</label>
+              <input type="password" id="password" name="password" class="form-control" required>
+            </div>
 
-          <button type="submit" class="btn btn-dark">로그인</button>
+            <!--로그인 버튼만 합쳐놓았습니다.-->
+            <div class="text-center">
+              <button type="submit" class="btn btn-outline-dark btn-sm">로그인</button>
+              <a href="/oauth2/authorization/naver" class="btn btn-outline-success btn-sm">네이버 로그인</a>
+            </div>
 
-          <!-- 네이버 로그인 버튼 -->
-          <div class="text-center mt-4">
-            <a href="/oauth2/authorization/naver" class="naver-login-btn">
-              네이버 로그인
-            </a>
-          </div>
-        </form>
-      </div>
 
-      <!-- 로그인 된 경우 -->
-      <div th:if="${#authentication != null and #authentication.name != 'anonymousUser'}">
-        <div class="text-center">
+            <div class="text-end mt-2">
+              <a href="/user/signup" class="btn btn-outline-primary btn-sm">회원가입</a>
+            </div>
+          </form>
+
+          <!-- 로그인 된 경우 -->
+        <div th:if="${#authentication != null and #authentication.name != 'anonymousUser'}" class="text-center mt-auto">
           <p><b th:text="${#authentication.name}"></b> 님 환영합니다!</p>
           <a href="/logout" class="btn btn-outline-secondary btn-sm">로그아웃</a>
         </div>
+
       </div>
-
-      <div class="text-center mt-3">
-        <a href="/user/signup" class="btn btn-outline-primary btn-sm">
-          회원가입
-        </a>
-
-
-
     </div>
+  </div>
+
+</div>
 </body>
 </html>
