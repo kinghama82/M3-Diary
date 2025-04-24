@@ -8,12 +8,12 @@ public class MainController {
 
 	@GetMapping("/")
 	public String root() {
-		return "mainPage";
+		return "pages/mainPage";
 	}
 
 	@GetMapping("/main")
 	public String main() {
-		return "mainPage"; // templates/mainPage.html 렌더링
+		return "pages/mainPage"; // templates/mainPage.html 렌더링
 	}
 
 }

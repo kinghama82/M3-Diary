@@ -20,18 +20,18 @@ public class M3Controller {
 
     @GetMapping("/signup")
     public String signup(M3userForm m3userForm) {
-        return "signup";
+        return "pages/signup";
     }
 
     @PostMapping("/signup")
     public String signupSubmit(@Valid M3userForm m3userForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "signup";
+            return "pages/signup";
         }
         if (!m3userForm.getPassword().equals(m3userForm.getPassword2())) {
             bindingResult.rejectValue("password2", "password오류",
                     "비밀번호가 틀립니다.");
-            return "signup";
+            return "pages/signup";
         }
         try {
             m3Service.create(m3userForm.getEmail(),
@@ -47,11 +47,11 @@ public class M3Controller {
             e.printStackTrace();
 
         bindingResult.reject("logingFailed", "중복된 사용자 입니다.");
-        return "signup";
+        return "pages/signup";
     }catch (Exception e) {
             e.printStackTrace();
             bindingResult.reject("logingFailed", e.getMessage());
-            return "signup";
+            return "pages/signup";
         }
         return "redirect:/user/login";
 
@@ -59,7 +59,7 @@ public class M3Controller {
     @GetMapping("/login")
     public String loginpage() {
 
-        return "mainPage";
+        return "pages/mainPage";
     }
 
 
