@@ -3,14 +3,14 @@ name: Deploy via Git Clone on EC2
 on:
   push:
     branches:
-      - main
+      - main  # main 브랜치에 push 될 때마다 배포 실행
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # 깃허브 액션이 사용할 가상환경 지정
 
     steps:
-    - name: Decode PEM key
+    - name: Decode PEM key  # EC2 접속을 위한 PEM 키 복호화
       run: |
         echo "${{ secrets.EC2_KEY }}" | base64 -d > ec2-key.pem
         chmod 600 ec2-key.pem
@@ -18,48 +18,79 @@ jobs:
     - name: SSH and Deploy
       run: |
         ssh -i ec2-key.pem -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
-          # 필요한 패키지 설치
-          sudo apt update
-          sudo apt install -y openjdk-21-jdk
-          sudo apt install -y git
 
-          # git clone (없으면)
+          # 필요한 패키지 설치 (서버 초기 세팅 대비)
+          sudo apt update
+          sudo apt install -y openjdk-21-jdk git
+
+          # 프로젝트가 없다면 git clone
           if [ ! -d "M3-Diary" ]; then
             git clone https://github.com/${{ secrets.REPO_URL }} M3-Diary
           fi
 
+          # 프로젝트 폴더 이동
           cd M3-Diary
 
           # 최신 코드로 업데이트
           git pull origin main
 
-          # gradle 빌드 (테스트 생략 + 실행 권한 부여)
+          # ==========================
+          # 빌드 전 정리 작업 시작
+          # ==========================
+
+          # 기존 빌드 폴더 삭제 (디스크 용량 확보)
+          rm -rf build
+
+          # 기존 로그 파일 삭제 (누적 방지)
+          rm -f app.log
+
+          # ==========================
+          # 빌드 시작
+          # ==========================
+
+          # gradle 빌드 준비
           chmod +x ./gradlew
+
+          # 테스트 생략하고 빌드 실행
           ./gradlew clean build -x test
-  
-          # JAR 백업
-          mkdir -p ~/backup
+
+          # ==========================
+          # JAR 파일 백업
+          # ==========================
+
+          mkdir -p ~/backup  # backup 폴더 없으면 생성
+
           if [ -f build/libs/M3-Diary-0.0.1-SNAPSHOT.jar ]; then
-          cp build/libs/M3-Diary-0.0.1-SNAPSHOT.jar ~/backup/prev.jar
+            cp build/libs/M3-Diary-0.0.1-SNAPSHOT.jar ~/backup/prev.jar
           fi
 
-          # 기존 프로세스 종료 (있으면)
-          pkill -f 'java -jar' || true
+          # ==========================
+          # 기존 프로세스 종료 및 재시작
+          # ==========================
 
-          # 백그라운드 실행
+          pkill -f 'java -jar' || true  # 실행 중이던 서버 프로세스 종료 (없으면 무시)
+
+          # 새 JAR 파일로 서버 실행 (백그라운드)
           nohup java -jar build/libs/M3-Diary-0.0.1-SNAPSHOT.jar > app.log 2>&1 &
-          sleep 10
-  
-          # 헬스체크
+          sleep 10  # 서버 기동 대기
+
+          # ==========================
+          # 헬스체크 및 롤백 처리
+          # ==========================
+
           if curl -s --fail http://localhost:8080/health; then
-          echo "✅ 배포 성공" >> app.log
+            echo "✅ 배포 성공" >> app.log
           else
-          echo "❌ 배포 실패. 롤백 중..." >> app.log
-          pkill -f 'java -jar' || true
-          nohup java -jar ~/backup/prev.jar > app.log 2>&1 &
-          echo "🔁 이전 버전으로 롤백됨" >> app.log
+            echo "❌ 배포 실패. 롤백 중..." >> app.log
+            pkill -f 'java -jar' || true
+            nohup java -jar ~/backup/prev.jar > app.log 2>&1 &
+            echo "🔁 이전 버전으로 롤백됨" >> app.log
           fi
-  
-  
+
+          # ==========================
+          # 최근 로그 출력
+          # ==========================
+
           tail -n 100 app.log
+
         EOF
