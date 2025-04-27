@@ -9,12 +9,15 @@
 <div layout:fragment="content" class="container my-5">
 
   <div class="d-flex justify-content-center">
-    <div class="row border rounded shadow" style="max-width: 700px; width: 100%; height: 410px;">
+    <div class="row border rounded shadow" style="max-width: 700px; width: 100%; height: 300px;">
+
 <!--버튼 만들고 높이 조절해서 박스 칸 맞춰주세용-->
+
       <!-- 왼쪽 세션 박스 -->
       <div class="col-md-5 d-flex flex-column justify-content-between p-0">
         <div class="flex-fill bg-success text-white text-center d-flex align-items-center justify-content-center">
-          <div>클릭!<br><small>사람인 or 잡코리아</small></div>
+          <div>클릭!<br><small><a th:href="@{/saramin/search}">사람인 or 잡코리아</a> </small></div>
+
         </div>
         <div class="flex-fill bg-primary text-white text-center d-flex align-items-center justify-content-center">
           <div>클릭!<br><small>정부 취업관련</small></div>
@@ -53,15 +56,15 @@
               <a href="/user/signup" class="btn btn-outline-primary btn-sm">회원가입</a>
             </div>
           </form>
+      </div>
 
-          <!-- 로그인 된 경우 -->
+        <!-- 로그인 된 경우 -->
         <div th:if="${#authentication != null and #authentication.name != 'anonymousUser'}" class="text-center mt-auto">
           <p><b th:text="${#authentication.name}"></b> 님 환영합니다!</p>
           <a href="/logout" class="btn btn-outline-secondary btn-sm">로그아웃</a>
         </div>
 
       </div>
-    </div>
   </div>
 
 </div>
