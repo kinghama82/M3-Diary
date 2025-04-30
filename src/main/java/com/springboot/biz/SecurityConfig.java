@@ -22,7 +22,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(csrf -> csrf
-                        .ignoringRequestMatchers("/api/**"))
+                        .ignoringRequestMatchers("/api/**")) //이거 맞겠징
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/api/login", "/user/signup", "/css/**", "/js/**").permitAll()
                         .anyRequest().authenticated()
