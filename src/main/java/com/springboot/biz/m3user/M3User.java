@@ -16,7 +16,7 @@ public class M3User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer userSeq;
 
-	private String username; // 아이디
+	private String username; // 아이디 일까욧ㅇ
 	
 	private String email; // 이메일
 	
