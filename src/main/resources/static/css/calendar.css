@@ -1,0 +1,91 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    padding: 30px;
+    background-color: #f9f9f9;
+}
+
+.calendar {
+    max-width: 1000px;
+    margin: auto;
+}
+
+.calendar-header,
+.calendar-body {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.day, .cell {
+    border: 1px solid #ddd;
+    min-height: 100px;
+    padding: 8px;
+}
+
+.day {
+    background-color: #f0f0f0;
+    text-align: center;
+    font-weight: bold;
+}
+
+.cell {
+    background-color: #fff;
+    position: relative;
+}
+
+.date {
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 13px;
+}
+
+.events {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 12px;
+}
+
+.events li {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 2px;
+}
+
+.tag {
+    display: inline-block;
+    font-size: 10px;
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+    border-radius: 4px;
+    text-align: center;
+    color: white;
+    margin-right: 4px;
+}
+
+.tag.시 { background-color: #3f51b5; }
+.tag.마 { background-color: #e53935; }
+
+.more {
+    font-size: 11px;
+    color: #777;
+}
+.calendar-title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/*요일 색상다르게 만들기*/
+.sunday{
+    background-color: #ffecec;
+}
+.saturday{
+    background-color: #e6f0ff;
+}
