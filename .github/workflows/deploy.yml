@@ -82,12 +82,12 @@ jobs:
           # ==========================
 
           if curl -s --fail http://localhost:8080/health; then
-            echo "✅ 배포 성공" >> app.log
+            echo "서버 활성화" >> app.log
           else
-            echo "❌ 배포 실패. 롤백 중..." >> app.log
+            echo "배포 실패. 롤백 중..." >> app.log
             pkill -f 'java -jar' || true
             nohup java -jar ~/backup/prev.jar > app.log 2>&1 &
-            echo "🔁 이전 버전으로 롤백됨" >> app.log
+            echo "이전 버전으로 롤백됨" >> app.log
           fi
 
           # ==========================
