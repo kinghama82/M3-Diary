@@ -27,4 +27,5 @@ public class SaraminController {
         model.addAttribute("keywords", keywords);
         return "saramin_list"; // job-list.html 렌더링
     }
+
 }

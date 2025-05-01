@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>캘린더 디자인 틀</title>
+    <link rel="stylesheet" href="/css/calendar.css">
+</head>
+<body>
+
+<div class="calendar">
+    <h2 id="currentMonth" class="calendar-title"></h2>
+    <!--현재 년/월 표시 id값은 js로 향함-->
+
+    <div class="calendar-header">
+        <div class="day">일</div>
+        <div class="day">월</div>
+        <div class="day">화</div>
+        <div class="day">수</div>
+        <div class="day">목</div>
+        <div class="day">금</div>
+        <div class="day">토</div>
+    </div>
+    <div class="calendar-body"><!--날짜 js로-->
+<!--js에서 div를 js코드로 새로 생성 하고 이름을 cell로 불러옴-->
+        <div class="cell"><div class="date">1</div></div>
+        <div class="cell"><div class="date">2</div></div>
+        <div class="cell"><div class="date">3</div></div>
+        <div class="cell"><div class="date">4</div></div>
+        <div class="cell"><div class="date">5</div></div>
+        <div class="cell"><div class="date">6</div></div>
+        <div class="cell"><div class="date">7</div></div>
+
+    </div>
+</div>
+<script src="/js/calendar.js"></script>
+</body>
+</html>
