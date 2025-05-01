@@ -19,83 +19,66 @@ jobs:
       run: |
         ssh -i ec2-key.pem -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
 
-          # 필요한 패키지 설치 (서버 초기 세팅 대비)
+          # 패키지 설치
           sudo apt update
           sudo apt install -y openjdk-21-jdk git
 
-          # 프로젝트가 없다면 git clone
+          # 프로젝트 없으면 clone
           if [ ! -d "M3-Diary" ]; then
             git clone https://github.com/${{ secrets.REPO_URL }} M3-Diary
           fi
 
-          # 프로젝트 폴더 이동
           cd M3-Diary
- 
-          # .env가 Git과 충돌나지 않도록 사전 조치
+
+          # .env 충돌 방지
           git restore --staged .env || true
           git checkout -- .env || true
           git update-index --assume-unchanged .env
 
-          # 최신 코드로 업데이트
+          # 최신 코드 반영
           git pull origin main
 
-          # ==========================
-          # 빌드 전 정리 작업 시작
-          # ==========================
-
-          # 기존 빌드 폴더 삭제 (디스크 용량 확보)
+          # 빌드 전 정리
           rm -rf build
-
-          # 기존 로그 파일 삭제 (누적 방지)
           rm -f app.log
 
-          # ==========================
-          # 빌드 시작
-          # ==========================
-
-          # gradle 빌드 준비
+          # 빌드
           chmod +x ./gradlew
-
-          # 테스트 생략하고 빌드 실행
           ./gradlew clean build -x test
 
-          # ==========================
-          # JAR 파일 백업
-          # ==========================
-
-          mkdir -p ~/backup  # backup 폴더 없으면 생성
-
+          # 빌드 성공 후에만 JAR 백업
           if [ -f build/libs/M3-Diary-0.0.1-SNAPSHOT.jar ]; then
+            mkdir -p ~/backup
             cp build/libs/M3-Diary-0.0.1-SNAPSHOT.jar ~/backup/prev.jar
           fi
 
-          # ==========================
-          # 기존 프로세스 종료 및 재시작
-          # ==========================
+          # 기존 서버 종료
+          pkill -f 'java -jar' || true
 
-          pkill -f 'java -jar' || true  # 실행 중이던 서버 프로세스 종료 (없으면 무시)
-
-          # 새 JAR 파일로 서버 실행 (백그라운드)
+          # 새 서버 실행
           nohup java -jar build/libs/M3-Diary-0.0.1-SNAPSHOT.jar > app.log 2>&1 &
-          sleep 10  # 서버 기동 대기
+          sleep 3
 
-          # ==========================
-          # 헬스체크 및 롤백 처리
-          # ==========================
+          # ✅ 헬스체크 루프 (최대 30초, 3초 간격)
+          for i in {1..10}; do
+            if curl -s --fail http://localhost:8080/health; then
+              echo "✅ 서버 활성화됨" >> app.log
+              break
+            else
+              echo "⏳ 서버 기동 대기 중... ($i/10)" >> app.log
+              sleep 3
+            fi
+          done
 
-          if curl -s --fail http://localhost:8080/health; then
-            echo "서버 활성화" >> app.log
-          else
-            echo "배포 실패. 롤백 중..." >> app.log
+          # 마지막 헬스체크 실패 시 롤백
+          if ! curl -s --fail http://localhost:8080/health; then
+            echo "❌ 배포 실패. 롤백 중..." >> app.log
             pkill -f 'java -jar' || true
             nohup java -jar ~/backup/prev.jar > app.log 2>&1 &
-            echo "이전 버전으로 롤백됨" >> app.log
+            echo "🔁 이전 버전으로 롤백됨" >> app.log
           fi
 
-          # ==========================
-          # 최근 로그 출력
-          # ==========================
-
+          # 로그 출력
           tail -n 100 app.log
 
         EOF
