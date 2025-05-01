@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class GovBookmarkController {
 
-	private final governmentService governmentService;
+	private final GovernmentService governmentService;
 	
 	@GetMapping("/list")
 	public String list() {

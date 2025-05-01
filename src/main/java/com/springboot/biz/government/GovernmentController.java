@@ -7,9 +7,9 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RequestMapping("/gov")
-public class governmentController {
+public class GovernmentController {
 
-	private final governmentService governmentService;
+	private final GovernmentService governmentService;
 	
 	@GetMapping("/list")
 	public void list() {
