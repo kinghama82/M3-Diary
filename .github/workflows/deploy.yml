@@ -30,6 +30,9 @@ jobs:
 
           # 프로젝트 폴더 이동
           cd M3-Diary
+ 
+          git update-index --assume-unchanged .env
+ 
 
           # 최신 코드로 업데이트
           git pull origin main
