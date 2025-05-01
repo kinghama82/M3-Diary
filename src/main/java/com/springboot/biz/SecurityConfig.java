@@ -40,7 +40,7 @@ public class SecurityConfig {
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/user/login?logout")  // 로그아웃 후 이동 경로
+                        .logoutSuccessUrl("/")  // 로그아웃 후 이동 경로
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID")
                 )

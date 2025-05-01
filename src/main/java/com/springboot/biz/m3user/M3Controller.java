@@ -1,14 +1,18 @@
 package com.springboot.biz.m3user;
 
 
+import com.springboot.biz.saramin.Saramin;
+import com.springboot.biz.saramin.SaraminDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
+import java.util.Set;
 
 @Controller
 @RequiredArgsConstructor
@@ -61,6 +65,16 @@ public class M3Controller {
 
         return "pages/mainPage";
     }
+
+    @PostMapping("/favorite/save")
+    public String saveFavorite(@ModelAttribute SaraminDto dto, Principal principal,
+                               @RequestHeader(value = "referer", required = false) String referer) {
+        Integer userId = m3Service.findByUsername(principal.getName()).getUserSeq();
+        m3Service.saveFavoriteSaramin(userId, dto);
+        return "redirect:" + (referer != null ? referer : "/saramin/search");
+    }
+
+
 
 
 }

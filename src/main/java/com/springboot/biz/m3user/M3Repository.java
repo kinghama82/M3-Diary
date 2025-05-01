@@ -1,5 +1,6 @@
 package com.springboot.biz.m3user;
 
+import com.springboot.biz.saramin.Saramin;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

@@ -2,8 +2,13 @@ package com.springboot.biz.saramin;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.springboot.biz.m3user.M3Repository;
+import com.springboot.biz.m3user.M3User;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -11,16 +16,17 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+@RequiredArgsConstructor
 @Service
 public class SaraminService {
 
     @Value("${saramin.api-key}")   //env 설정 해주세요!!!!!!
     private String API_KEY;
+
+    private final M3Repository m3Repository;
+    private final SaraminRepository saraminRepository;
 
     private final ObjectMapper objectMapper = new ObjectMapper();//json변환을 위한 키
 
@@ -85,6 +91,78 @@ public class SaraminService {
 
         return result;
     }
+    @Transactional
+    public List<Saramin> getJobsFromApiAndSave(String keywords) throws Exception {
+        if (keywords == null || keywords.trim().isEmpty()) {
+            keywords = "";
+        }
+
+        String encodedKeyword = URLEncoder.encode(keywords, "UTF-8");
+        String apiUrl = "https://oapi.saramin.co.kr/job-search?access-key=" + API_KEY + "&keywords=" + encodedKeyword + "&count=30";
+
+        URL url = new URL(apiUrl);
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setRequestMethod("GET");
+        con.setRequestProperty("Accept", "application/json");
+
+        int responseCode = con.getResponseCode();
+        BufferedReader br = new BufferedReader(new InputStreamReader(
+                responseCode == 200 ? con.getInputStream() : con.getErrorStream()
+        ));
+
+        StringBuilder response = new StringBuilder();
+        String line;
+        while ((line = br.readLine()) != null) {
+            response.append(line);
+        }
+        br.close();
+
+        JsonNode root = objectMapper.readTree(response.toString());
+        JsonNode jobs = root.path("jobs").path("job");
+
+        List<Saramin> savedJobs = new ArrayList<>();
+        for (JsonNode job : jobs) {
+            Saramin s = new Saramin();
+            s.setCompanyName(job.path("company").path("name").asText());
+            s.setPositionTitle(job.path("position").path("title").asText());
+            s.setPostingDate(convertTimestamp(job.path("opening-timestamp").asText()));
+            s.setExpirationDate(convertTimestamp(job.path("expiration-timestamp").asText()));
+            s.setActive(job.path("active").asText());
+            s.setCloseType(job.path("close-type").asText());
+            s.setUrl(job.path("url").asText());
+
+            Saramin saved = saraminRepository.save(s);
+            savedJobs.add(saved);
+        }
+
+        return savedJobs;
+    }
+
+    public List<SaraminDto> getJobsFromApiDto(String keywords) throws Exception {
+        List<Map<String, String>> rawJobs = getJobsFromApi(keywords);
+        List<SaraminDto> result = new ArrayList<>();
+
+        for (Map<String, String> job : rawJobs) {
+            SaraminDto dto = new SaraminDto();
+            dto.setCompanyName(job.get("company"));
+            dto.setPositionTitle(job.get("position"));
+            dto.setPostingDate(job.get("posting-date"));
+            dto.setExpirationDate(job.get("expiration-date"));
+            dto.setActive(job.get("active"));
+            dto.setCloseType(job.get("close-type"));
+            dto.setUrl(job.get("url"));
+            result.add(dto);
+        }
+
+        return result;
+    }
+
+
+
+
+
+
+
 
 // timestamp를 yyyy-MM-dd로 변환하는 메서드
 private String convertTimestamp(String timestampStr) {

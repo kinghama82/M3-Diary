@@ -1,8 +1,12 @@
 package com.springboot.biz.saramin;
 
+import com.springboot.biz.m3user.M3User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -28,5 +32,10 @@ public class Saramin {
     private String closeType; //마감일 형식 1접수마감일, 2채용시, 3상시, 4수시
 
     private String url;
+
+    /*즐겨찾기*/
+    @ManyToMany(mappedBy = "favoriteSaramins")
+    private Set<M3User> likedUsers = new HashSet<>();
+
 
 }

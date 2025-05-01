@@ -1,11 +1,12 @@
 package com.springboot.biz.m3user;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.springboot.biz.saramin.Saramin;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -34,6 +35,14 @@ public class M3User {
 
 	private String addressDetail;  //상세주소
 
+
+	@ManyToMany
+	@JoinTable(
+			name = "user_favorite_saramin",
+			joinColumns = @JoinColumn(name = "user_seq"),
+			inverseJoinColumns = @JoinColumn(name = "saramin_id")
+	)
+	private Set<Saramin> favoriteSaramins = new HashSet<>();
 
 
 }
