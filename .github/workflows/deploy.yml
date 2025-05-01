@@ -52,11 +52,9 @@ jobs:
             cp build/libs/M3-Diary-0.0.1-SNAPSHOT.jar ~/backup/prev.jar
           fi
 
-          # 기존 서버 종료
-          pkill -f 'java -jar' || true
-
-          # 새 서버 실행
-          nohup java -jar build/libs/M3-Diary-0.0.1-SNAPSHOT.jar > app.log 2>&1 &
+          # ✅ systemd 서비스 재시작으로 최신 JAR 반영
+          echo "🔄 서비스 재시작 중..."
+          sudo systemctl restart m3-diary.service
           sleep 3
 
           # ✅ 헬스체크 루프 (최대 30초, 3초 간격)
@@ -69,14 +67,6 @@ jobs:
               sleep 3
             fi
           done
-
-          # 마지막 헬스체크 실패 시 롤백
-          if ! curl -s --fail http://localhost:8080/health; then
-            echo "❌ 배포 실패. 롤백 중..." >> app.log
-            pkill -f 'java -jar' || true
-            nohup java -jar ~/backup/prev.jar > app.log 2>&1 &
-            echo "🔁 이전 버전으로 롤백됨" >> app.log
-          fi
 
           # 로그 출력
           tail -n 100 app.log
