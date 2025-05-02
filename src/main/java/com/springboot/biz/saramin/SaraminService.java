@@ -16,6 +16,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 
 @RequiredArgsConstructor
@@ -137,7 +138,7 @@ public class SaraminService {
 
         return savedJobs;
     }
-
+    /*즐겨찾기 위한*/
     public List<SaraminDto> getJobsFromApiDto(String keywords) throws Exception {
         List<Map<String, String>> rawJobs = getJobsFromApi(keywords);
         List<SaraminDto> result = new ArrayList<>();
@@ -151,6 +152,12 @@ public class SaraminService {
             dto.setActive(job.get("active"));
             dto.setCloseType(job.get("close-type"));
             dto.setUrl(job.get("url"));
+
+            // ✅ 날짜 구간 추가 (예: ["2025-05-01", "2025-05-02", "2025-05-03"])
+            List<String> dateRange = calculateDateRange(job.get("posting-date"), job.get("expiration-date"));
+            dto.setDateRange(dateRange);
+
+
             result.add(dto);
         }
 
@@ -158,6 +165,20 @@ public class SaraminService {
     }
 
 
+    private List<String> calculateDateRange(String startStr, String endStr) {
+        List<String> range = new ArrayList<>();
+        try {
+            LocalDate start = LocalDate.parse(startStr);
+            LocalDate end = LocalDate.parse(endStr);
+            while (!start.isAfter(end)) {
+                range.add(start.toString()); // yyyy-MM-dd 형식으로 추가
+                start = start.plusDays(1);
+            }
+        } catch (Exception e) {
+            // 날짜 파싱 실패시 무시
+        }
+        return range;
+    }
 
 
 

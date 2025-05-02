@@ -65,7 +65,7 @@ public class M3Controller {
 
         return "pages/mainPage";
     }
-
+    /*즐겨찾기 목록*/
     @PostMapping("/favorite/save")
     public String saveFavorite(@ModelAttribute SaraminDto dto, Principal principal,
                                @RequestHeader(value = "referer", required = false) String referer) {

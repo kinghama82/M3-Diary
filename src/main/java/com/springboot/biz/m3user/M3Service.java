@@ -35,30 +35,20 @@ public class M3Service {
         this.m3Repository.save(m3User);
         return m3User;
     }
-    @Transactional
-    public void toggleFavorite(Integer userId, Integer saraminId) {
-        M3User user = m3Repository.findById(userId).orElseThrow();
-        Saramin saramin = saraminRepository.findById(saraminId).orElseThrow();
 
-        if (user.getFavoriteSaramins().contains(saramin)) {
-            user.getFavoriteSaramins().remove(saramin); // 찜 해제
-        } else {
-            user.getFavoriteSaramins().add(saramin); // 찜 추가
-        }
-
-        m3Repository.save(user);
-    }
+    /*즐겨찾기 목록 저장에 필요한 유저네임, */
     public M3User findByUsername(String username) {
         return m3Repository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
     }
-    public Set<Saramin> getFavoriteSaramins(Integer userId) {
-        M3User user = m3Repository.findById(userId).orElseThrow();
+    public Set<Saramin> getFavoriteSaramins(Integer userSeq) {
+        M3User user = m3Repository.findById(userSeq).orElseThrow();
         return user.getFavoriteSaramins();
     }
 
-    public void saveFavoriteSaramin(Integer userId, SaraminDto dto) {
-        M3User user = m3Repository.findById(userId).orElseThrow();
+    /*즐겨찾기 목록 저장x 프론트에서만 */
+    public void saveFavoriteSaramin(Integer userSeq, SaraminDto dto) {
+        M3User user = m3Repository.findById(userSeq).orElseThrow();
 
         Optional<Saramin> optional = saraminRepository.findByUrl(dto.getUrl());
         Saramin saramin = optional.orElseGet(() -> {

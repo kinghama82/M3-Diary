@@ -4,6 +4,7 @@ import com.springboot.biz.m3user.M3User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -35,6 +36,7 @@ public class Saramin {
 
     /*즐겨찾기*/
     @ManyToMany(mappedBy = "favoriteSaramins")
+    @JsonIgnore
     private Set<M3User> likedUsers = new HashSet<>();
 
 

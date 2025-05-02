@@ -1,6 +1,11 @@
-* {
-    box-sizing: border-box;
+
+button.btn {
+    border: none;
+    background: none;
+    font-size: 24px;
+    cursor: pointer;
 }
+
 
 body {
     font-family: Arial, sans-serif;
@@ -13,79 +18,44 @@ body {
     margin: auto;
 }
 
-.calendar-header,
-.calendar-body {
+.calendar-header {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-}
-
-.day, .cell {
-    border: 1px solid #ddd;
-    min-height: 100px;
-    padding: 8px;
+    background-color: #f0f0f0;
+    font-weight: bold;
+    text-align: center;
 }
 
 .day {
-    background-color: #f0f0f0;
-    text-align: center;
-    font-weight: bold;
+    padding: 8px;
+    border: 1px solid #ddd;
+}
+
+.week-row {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    border-bottom: 1px solid #ddd;
+    min-height: 100px;
 }
 
 .cell {
-    background-color: #fff;
+    height: 180px;              /* ✅ 고정 높이 설정 */
+    overflow: hidden;
     position: relative;
 }
-
-.date {
-    font-weight: bold;
-    margin-bottom: 5px;
-    font-size: 13px;
-}
-
-.events {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    font-size: 12px;
-}
-
-.events li {
+.job-bar {
+    background-color: #4CAF50;
+    color: white;
+    font-size: 11px;
+    padding: 2px 6px;
+    height: 22px;
+    line-height: 18px;
+    margin-top: 4px;
+    border-radius: 3px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    margin-bottom: 2px;
-}
-
-.tag {
-    display: inline-block;
-    font-size: 10px;
-    width: 16px;
-    height: 16px;
-    line-height: 16px;
-    border-radius: 4px;
-    text-align: center;
-    color: white;
-    margin-right: 4px;
-}
-
-.tag.시 { background-color: #3f51b5; }
-.tag.마 { background-color: #e53935; }
-
-.more {
-    font-size: 11px;
-    color: #777;
-}
-.calendar-title {
-    text-align: center;
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 15px;
-}
-
-/*요일 색상다르게 만들기*/
-.sunday{
-    background-color: #ffecec;
-}
-.saturday{
-    background-color: #e6f0ff;
+    width: 100%;               /* ✅ 셀 너비 꽉 채움 */
+    min-width: 100%;
+    box-sizing: border-box;
 }

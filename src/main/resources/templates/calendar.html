@@ -2,14 +2,25 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>캘린더 디자인 틀</title>
+    <title>캘린더</title>
     <link rel="stylesheet" href="/css/calendar.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
 </head>
 <body>
+<div style="text-align: center; margin-bottom: 10px;">
+    <button id="previousMonth" class="btn btn-light">
+        <i class="bi bi-arrow-left-square"></i>
+    </button>
+    <span id="currentMonthLabel" style="font-weight: bold; font-size: 18px; margin: 0 12px;"></span>
+    <button id="nextMonth" class="btn btn-light">
+        <i class="bi bi-arrow-right-square"></i>
+    </button>
 
+
+</div>
 <div class="calendar">
-    <h2 id="currentMonth" class="calendar-title"></h2>
-    <!--현재 년/월 표시 id값은 js로 향함-->
+
 
     <div class="calendar-header">
         <div class="day">일</div>
@@ -20,18 +31,15 @@
         <div class="day">금</div>
         <div class="day">토</div>
     </div>
-    <div class="calendar-body"><!--날짜 js로-->
-<!--js에서 div를 js코드로 새로 생성 하고 이름을 cell로 불러옴-->
-        <div class="cell"><div class="date">1</div></div>
-        <div class="cell"><div class="date">2</div></div>
-        <div class="cell"><div class="date">3</div></div>
-        <div class="cell"><div class="date">4</div></div>
-        <div class="cell"><div class="date">5</div></div>
-        <div class="cell"><div class="date">6</div></div>
-        <div class="cell"><div class="date">7</div></div>
 
-    </div>
+    <div class="calendar-body" id="calendarBody"></div>
+
 </div>
+
+<script th:inline="javascript">
+    window.favorites = [[${favorites}]];
+</script>
+
 <script src="/js/calendar.js"></script>
 </body>
 </html>
