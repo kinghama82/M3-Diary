@@ -37,10 +37,11 @@ public class GovernmentController {
 		return ResponseEntity.ok(res);
 	}
 	
-	//즐겨찾기
+	//즐겨찾기추가 + 중복검사
 	@PostMapping("/bookmark")
 	public ResponseEntity<?> bookMark(@RequestBody GovBookmarkDto dto){
-		governmentService.addBookmark(dto);
-		return ResponseEntity.ok("즐겨찾기 완료");
+		String result = governmentService.checkBookmark(dto);
+		return ResponseEntity.ok(result);
 	}
+	
 }

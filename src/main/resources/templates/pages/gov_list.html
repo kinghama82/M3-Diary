@@ -109,6 +109,33 @@
 						document.addEventListener("DOMContentLoaded", function () {
 							loadPage(1); // 첫 페이지 로딩
 						});
+						// 즐겨찾기 버튼 클릭 이벤트 처리
+						document.addEventListener("click", function (e) {
+							if (e.target.classList.contains("bookmark-btn")) {
+								const btn = e.target;
+								const data = {
+									plcyNo: btn.dataset.plcyno,
+									plcyNm: btn.dataset.plcynm,
+									aplyYmd: btn.dataset.aplyymd
+								};
+
+								axios.post("/api/gov/bookmark", data)
+									.then((res) => {
+										if (res.data === "저장됨") {
+											alert("즐겨찾기에 추가되었습니다.");
+											btn.textContent = "저장됨";
+											btn.classList.add("btn-secondary");
+										} else {
+											alert("⭐ 즐겨찾기에서 제거되었습니다.");
+											btn.textContent = "⭐";
+											btn.classList.remove("btn-secondary");
+										}
+									})
+									.catch(() => {
+										alert("즐겨찾기 요청 실패");
+									});
+							}
+						});
 
 					</script>
 				</tbody>

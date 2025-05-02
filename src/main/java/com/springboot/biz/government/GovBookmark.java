@@ -26,4 +26,6 @@ public class GovBookmark {
 	@Column(name = "aplyYmd")
 	private String aplyYmd; //신청기간
 	
+	
+	
 }
