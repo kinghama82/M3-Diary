@@ -8,24 +8,114 @@
 </head>
 
 <body>
-<div layout:fragment="content" class="container my-5">
-	<div>
-		<table style="width: 100%;">
-			<thead>
-				<tr class="text-center">
-					<th class="border border-black">번호</th>
-					<th class="border border-black">정책 이름</th>
-					<th class="border border-black">신청 기간</th>
-					<th class="border border-black">담당 기관</th>
-					<th class="border border-black">즐겨 찾기</th>
-				</tr>
-			</thead>
-			<tbody>
-				
-			</tbody>
-		</table>
+	<div layout:fragment="content" class="container my-5">
+		<div>
+			<table style="width: 100%;">
+				<thead>
+					<tr class="text-center">
+						<th class="border border-black">번호</th>
+						<th class="border border-black">정책 이름</th>
+						<th class="border border-black">신청 기간</th>
+						<th class="border border-black">담당 기관</th>
+						<th class="border border-black">즐겨 찾기</th>
+					</tr>
+				</thead>
+				<tbody>
+					<script>
+						function loadPage(page = 1) {
+							axios.get(`/api/gov/list?page=${page}`)
+								.then(function (response) {
+									const items = response.data.result.youthPolicyList;
+									const totCount = response.data.result.pagging.totCount;
+									const pageSize = 10;
+									const totalPages = Math.ceil(totCount / pageSize);
+
+									const tbody = document.querySelector("tbody");
+									tbody.innerHTML = "";
+
+									items.forEach((item, index) => {
+										const tr = document.createElement("tr");
+										tr.classList.add("text-center");
+										tr.innerHTML = `
+										<td class="border border-black">${(page - 1) * 10 + index + 1}</td>
+										<td class="border border-black">
+											<a href="https://www.youthcenter.go.kr/youthPolicy/ythPlcyTotalSearch/ythPlcyDetail/${item.plcyNo}" 
+												class="text-decoration-none" target="_blank">
+												${item.plcyNm}
+											</a>
+										</td>
+										<td class="border border-black">${item.aplyYmd || '-'}</td>
+										<td class="border border-black">${item.rgtrHghrkInstCdNm || '-'}</td>
+										<td class="border border-black">
+											<button class="bookmark-btn"
+												data-plcyno="${item.plcyNo}"
+												data-plcynm="${item.plcyNm}"
+												data-aplyymd="${item.aplyYmd}">
+												⭐
+											</button>
+										</td>
+									`;
+										tbody.appendChild(tr);
+									});
+
+									// 페이지네이션
+									const pagination = document.getElementById("pagination");
+									pagination.innerHTML = "";
+
+									const groupSize = 10;
+									const currentGroup = Math.floor((page - 1) / groupSize);
+									const start = currentGroup * groupSize + 1;
+									const end = Math.min(start + groupSize - 1, totalPages);
+
+									const nav = document.createElement("nav");
+									const ul = document.createElement("ul");
+									ul.className = "pagination justify-content-center flex-wrap";
+
+									// 이전
+									if (start > 1) {
+										const li = document.createElement("li");
+										li.className = "page-item";
+										li.innerHTML = `<a class="page-link" href="#">«</a>`;
+										li.addEventListener("click", () => loadPage(start - 1));
+										ul.appendChild(li);
+									}
+
+									// 페이지 번호
+									for (let i = start; i <= end; i++) {
+										const li = document.createElement("li");
+										li.className = "page-item" + (i === page ? " active" : "");
+										li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+										li.addEventListener("click", () => loadPage(i));
+										ul.appendChild(li);
+									}
+
+									// 다음
+									if (end < totalPages) {
+										const li = document.createElement("li");
+										li.className = "page-item";
+										li.innerHTML = `<a class="page-link" href="#">»</a>`;
+										li.addEventListener("click", () => loadPage(end + 1));
+										ul.appendChild(li);
+									}
+
+									nav.appendChild(ul);
+									pagination.appendChild(nav);
+								})
+								.catch(function (error) {
+									console.error("정책 리스트 불러오기 실패:", error);
+								});
+						}
+
+						document.addEventListener("DOMContentLoaded", function () {
+							loadPage(1); // 첫 페이지 로딩
+						});
+
+					</script>
+				</tbody>
+			</table>
+			<div id="pagination" class="text-center my-4"></div>
+		</div>
 	</div>
-</div>
 </body>
 
 </html>

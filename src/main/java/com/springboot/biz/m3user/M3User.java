@@ -25,8 +25,6 @@ public class M3User {
 	
 	private String password; // 비밀번호
 
-	private String password2; // 비밀번호 확인
-
 	private String phone; //유저 폰번호
 
 	private String birthday; //유저 생일
