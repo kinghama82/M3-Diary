@@ -1,0 +1,91 @@
+/* 전체 배경 설정 */
+    body {
+      margin: 0;
+      padding: 0;
+      background: url('/images/diary_background.jpg') no-repeat center center fixed; /* 이미지 파일 경로 */
+	  background-size: cover;        /* ✅ 양옆까지 꽉 차게 */
+	    background-attachment: fixed;
+	    background-position: center;
+	    background-repeat: no-repeat;
+	    width: 100vw;                  /* ✅ 가로 전체 채움 */
+	    height:100vh;                 /* ✅ 세로 전체 채움 */
+	    overflow-x: hidden;            /* ✅ 좌우 스크롤 제거 */
+    }
+
+    /* 다이어리 위에 콘텐츠를 올릴 수 있도록 중앙 고정 컨테이너 */
+    .content-container {
+      position: absolute;
+      top: 55.5%; /* 수직 중앙 정렬 */
+      left: 47.5%; /* 수평 중앙 정렬 */
+      transform: translate(-50%, -50%);
+      width: 70vw; /* 전체 가로 너비의 80% */
+      height: 80vh; /* 전체 높이의 60% */
+      display: flex;
+      justify-content: space-between; /* 좌우 페이지 분할 */
+    }
+
+    /* 왼쪽 페이지 콘텐츠 영역 */
+    .left-page, .right-page {
+      width: 48%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.5); /* 반투명 배경으로 가독성 확보 */
+      padding: 1em;
+      overflow-y: auto;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    /* 모바일 대응 */
+    @media (max-width: 768px) {
+      .content-container {
+        flex-direction: column;
+        align-items: center;
+        height: auto;
+      }
+      .left-page, .right-page {
+        width: 90%;
+        margin-bottom: 1em;
+      }
+    }
+	
+	.right-wrapper {
+	  display: flex;
+	  flex-direction: row;
+	  align-items: stretch;
+	  height: 100%;
+	  width: 50%; /* ✅ 좌우 균형 맞춤 */
+	}
+
+	.right-page {
+	  flex: 1;
+	  position: relative;
+	  margin-right: 0.5em; /* 탭과 간격 */
+	}
+
+	.vertical-tabs {
+	  width: 2.5em;
+	  display: flex;
+	  flex-direction: column;
+	  justify-content: space-between;
+	  align-items: center;
+	  padding: 0.5em 0;
+	  background-color: rgba(255,255,255,0.5);
+	  border-radius: 8px;
+	  height: 100%;
+	}
+
+
+	.tab {
+	  writing-mode: vertical-lr;
+	  font-weight: bold;
+	  padding: 0.5em 0.2em;
+	  margin: 0.2em 0;
+	  text-align: center;
+	  background-color: #f7c59f;
+	  border-radius: 6px;
+	}
+
+	.tab.special {
+	  background-color: #ffdede;
+	  font-size: 1.1em;
+	}
