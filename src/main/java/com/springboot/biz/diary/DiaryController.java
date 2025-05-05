@@ -11,6 +11,6 @@ public class DiaryController {
 
 	@GetMapping("/diary")
 	public String page() {
-		return "/pages/diary";
+		return "pages/diary";
 	}
 }
