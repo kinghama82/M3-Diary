@@ -15,5 +15,10 @@ public class MainController {
 	public String main() {
 		return "pages/mainPage"; // templates/mainPage.html 렌더링
 	}
+	
+	@GetMapping("/diary")
+	public String diary() {
+		return "pages/diary";
+	}
 
 }
