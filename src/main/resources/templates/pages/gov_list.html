@@ -10,6 +10,36 @@
 <body>
 	<div layout:fragment="content" class="container my-5">
 		<div>
+			<div class="mb-2">
+				<!-- 드롭다운 메뉴 -->
+				<select id="regionSelect">
+					<option value="">지역 선택(전체)</option>
+					<optgroup label="특별시">
+						<option value="11000">서울특별시</option>
+					</optgroup>
+					<optgroup label="광역시">
+						<option value="26000">부산광역시</option>
+						<option value="27000">대구광역시</option>
+						<option value="28000">인천광역시</option>
+						<option value="29000">광주광역시</option>
+						<option value="30000">대전광역시</option>
+						<option value="31000">울산광역시</option>
+						<option value="36110">세종특별자치시</option>
+					</optgroup>
+					<optgroup label="도">
+						<option value="41000">경기도</option>
+						<option value="42000">강원특별자치도</option>
+						<option value="43000">충청북도</option>
+						<option value="44000">충청남도</option>
+						<option value="45000">전북특별자치도</option>
+						<option value="46000">전라남도</option>
+						<option value="47000">경상북도</option>
+						<option value="48000">경상남도</option>
+						<option value="50000">제주특별자치도</option>
+					</optgroup>
+				</select>
+			</div>
+
 			<table style="width: 100%;">
 				<thead>
 					<tr class="text-center">
@@ -22,8 +52,9 @@
 				</thead>
 				<tbody>
 					<script>
-						function loadPage(page = 1) {
-							axios.get(`/api/gov/list?page=${page}`)
+						function loadPage(page = 1, zipCd= "") {
+							const url = zipCd ? `/api/gov/list?page=${page}&zipCd=${zipCd}` : `/api/gov/list?page=${page}`;
+							axios.get(url)
 								.then(function (response) {
 									const items = response.data.result.youthPolicyList;
 									const totCount = response.data.result.pagging.totCount;
@@ -76,7 +107,7 @@
 										const li = document.createElement("li");
 										li.className = "page-item";
 										li.innerHTML = `<a class="page-link" href="#">«</a>`;
-										li.addEventListener("click", () => loadPage(start - 1));
+										li.addEventListener("click", () => loadPage(start - 1, zipCd));
 										ul.appendChild(li);
 									}
 
@@ -85,7 +116,7 @@
 										const li = document.createElement("li");
 										li.className = "page-item" + (i === page ? " active" : "");
 										li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
-										li.addEventListener("click", () => loadPage(i));
+										li.addEventListener("click", () => loadPage(i, zipCd));
 										ul.appendChild(li);
 									}
 
@@ -94,7 +125,7 @@
 										const li = document.createElement("li");
 										li.className = "page-item";
 										li.innerHTML = `<a class="page-link" href="#">»</a>`;
-										li.addEventListener("click", () => loadPage(end + 1));
+										li.addEventListener("click", () => loadPage(end + 1, zipCd));
 										ul.appendChild(li);
 									}
 
@@ -108,7 +139,15 @@
 
 						document.addEventListener("DOMContentLoaded", function () {
 							loadPage(1); // 첫 페이지 로딩
+							
+							// 드롭다운 변경 시
+							const regionSelect = document.getElementById("regionSelect");
+							regionSelect.addEventListener("change", () => {
+								const selectedZipCd = regionSelect.value;
+								loadPage(1, selectedZipCd); // 지역 변경 시 1페이지부터 다시
+							});
 						});
+						
 						// 즐겨찾기 버튼 클릭 이벤트 처리
 						document.addEventListener("click", function (e) {
 							if (e.target.classList.contains("bookmark-btn")) {

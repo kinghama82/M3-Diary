@@ -1,10 +1,14 @@
 package com.springboot.biz.government;
 
+import com.springboot.biz.m3user.M3User;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,6 +30,8 @@ public class GovBookmark {
 	@Column(name = "aplyYmd")
 	private String aplyYmd; //신청기간
 	
+	@ManyToOne
+	private M3User m3user;
 	
 	
 }
