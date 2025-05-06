@@ -1,5 +1,6 @@
 package com.springboot.biz.diary;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.dao.DataIntegrityViolationException;
@@ -15,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 public class DiaryService {
 
 	private final DiaryRepository diaryRepository;
-	private final M3Repository m3Repository;
 	
 	public Diary saveOrUpdate(int year, int month, int day, String content,M3User user) {
         Optional<Diary> optional = diaryRepository.findByYearAndMonthAndDayAndM3user(year, month, day,user);
@@ -42,6 +42,12 @@ public class DiaryService {
             
         }
     }
+	//메모리스트
+	public List<Integer> getMemoList(int year, int month, M3User user){
+		List<Diary> posts = diaryRepository.findByYearAndMonthAndM3user(year, month, user);
+		return posts.stream().map(Diary::getDay).toList();
+	}
+	
 
     public Optional<Diary> getPost(int year, int month, int day, M3User user) {
         return diaryRepository.findByYearAndMonthAndDayAndM3user(year, month, day, user);

@@ -1,38 +1,26 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
-  <meta charset="UTF-8">
-  <title>다이어리</title>
-  <link rel="stylesheet" th:href="@{/css/diary.css}">
+	<meta charset="UTF-8">
+	<title>다이어리</title>
+	<link rel="stylesheet" th:href="@{/css/diary.css}">
 </head>
 
 <body>
 
-  <!-- 다이어리 페이지 위 콘텐츠 영역 -->
-  <div class="content-container">
-	<!--다이어리 부분-->
-    <!-- 왼쪽 페이지 -->
-    <div th:replace="~{pages/diary-pages/left-page :: left-page}"></div>
+	<!-- 다이어리 페이지 위 콘텐츠 영역 -->
+	<div class="content-container">
+		<!--다이어리 부분-->
+		<!-- 왼쪽 페이지 -->
+		<div th:replace="~{pages/diary-pages/left-page :: left-page}"></div>
 
-    <!-- 오른쪽 페이지 + 수직탭 -->
-	<div class="right-wrapper">
+
 		<!-- 오른쪽 페이지-->
 		<div th:replace="~{pages/diary-pages/right-page :: right-page}"></div>
-		
-		<!-- 수직탭-->
-		<div class="vertical-tabs">
-		   <div class="tab">1</div>
-		   <div class="tab">2</div>
-		   <div class="tab">3</div>
-		   <div class="tab">4</div>
-		   <div class="tab">5</div>
-		   <div class="tab">6</div>
-		   <div class="tab">7</div>
-		   <div class="tab special">8</div>
-		</div>
 	</div>
-    
-  </div>
-
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<script src="/js/right-page.js"></script>
 </body>
+
 </html>

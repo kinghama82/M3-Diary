@@ -1,100 +1,172 @@
 /* 전체 배경 설정 */
-    body {
-      margin: 0;
-      padding: 0;
-      background: url('/images/diary_background.jpg') no-repeat center center fixed; /* 이미지 파일 경로 */
-	  background-size: cover;        /* ✅ 양옆까지 꽉 차게 */
-	    background-attachment: fixed;
-	    background-position: center;
-	    background-repeat: no-repeat;
-	    width: 100vw;                  /* ✅ 가로 전체 채움 */
-	    height:100vh;                 /* ✅ 세로 전체 채움 */
-	    overflow-x: hidden;            /* ✅ 좌우 스크롤 제거 */
-    }
+body {
+	margin: 0;
+	padding: 0;
+	background: url('/images/diary_background.jpg') no-repeat center center fixed;
+	/* 이미지 파일 경로 */
+	background-size: cover;
+	/* ✅ 양옆까지 꽉 차게 */
+	background-attachment: fixed;
+	background-position: center;
+	background-repeat: no-repeat;
+	width: 100vw;
+	/* ✅ 가로 전체 채움 */
+	height: 100vh;
+	/* ✅ 세로 전체 채움 */
+	overflow-x: hidden;
+	/* ✅ 좌우 스크롤 제거 */
+}
 
-    /* 다이어리 위에 콘텐츠를 올릴 수 있도록 중앙 고정 컨테이너 */
-    .content-container {
-      position: absolute;
-      top: 55.5%; /* 수직 중앙 정렬 */
-      left: 47.5%; /* 수평 중앙 정렬 */
-      transform: translate(-50%, -50%);
-      width: 70vw; /* 전체 가로 너비의 80% */
-      height: 80vh; /* 전체 높이의 60% */
-      display: flex;
-      justify-content: space-between; /* 좌우 페이지 분할 */
-    }
+/* 다이어리 위에 콘텐츠를 올릴 수 있도록 중앙 고정 컨테이너 */
+.content-container {
+	position: absolute;
+	top: 55.5%;
+	/* 수직 중앙 정렬 */
+	left: 47.5%;
+	/* 수평 중앙 정렬 */
+	transform: translate(-50%, -50%);
+	width: 70vw;
+	/* 전체 가로 너비의 80% */
+	height: 80vh;
+	/* 전체 높이의 60% */
+	display: flex;
+	justify-content: space-between;
+	/* 좌우 페이지 분할 */
+}
 
-    /* 왼쪽 페이지 콘텐츠 영역 */
-    .left-page, .right-page {
-      width: 48%;
-      height: 100%;
-      background-color: rgba(255, 255, 255, 0.5); /* 반투명 배경으로 가독성 확보 */
-      padding: 1em;
-      overflow-y: auto;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
+/* 왼쪽 페이지 콘텐츠 영역 */
+.left-page,
+.right-page {
+	width: 48%;
+	height: 100%;
+	background-color: rgba(255, 255, 255, 0.5);
+	/* 반투명 배경으로 가독성 확보 */
+	padding: 1em;
+	overflow-y: auto;
+	border-radius: 8px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 
-    /* 모바일 대응 */
-    @media (max-width: 768px) {
-      .content-container {
-        flex-direction: column;
-        align-items: center;
-        height: auto;
-      }
-      .left-page, .right-page {
-        width: 90%;
-        margin-bottom: 1em;
-      }
-    }
-	
-	.right-wrapper {
-	  display: flex;
-	  flex-direction: row;
-	  align-items: stretch;
-	  height: 100%;
-	  width: 50%; /* ✅ 좌우 균형 맞춤 */
+/* 모바일 대응 */
+@media (max-width: 768px) {
+	.content-container {
+		flex-direction: column;
+		align-items: center;
+		height: auto;
 	}
 
+	.left-page,
 	.right-page {
-	  flex: 1;
-	  position: relative;
-	  margin-right: 0.5em; /* 탭과 간격 */
+		width: 90%;
+		margin-bottom: 1em;
 	}
+}
 
-	.vertical-tabs {
-	  width: 2.5em;
-	  display: flex;
-	  flex-direction: column;
-	  
-	  align-items: center;
-	  gap: 1.2em;
-	  padding: 0.5em 0;
-	  background-color: rgba(255,255,255,0);
-	  border-radius: 8px;
-	  height: 100%;
-	}
+.right-wrapper {
+	display: flex;
+	flex-direction: row;
+	align-items: stretch;
+	height: 100%;
+	width: 50%;
+	/* ✅ 좌우 균형 맞춤 */
+}
+
+.right-page {
+	flex: 1;
+	position: relative;
+	margin-right: 0.5em;
+	/* 탭과 간격 */
+}
+
+.vertical-tabs {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: 0;
+	background-color: transparent;
+}
+
+.tab {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 40px;
+	height: 100px;
+	margin: 2px 0;
+	background-color: #f7c59f;
+	border: 1px solid #e0a96d;
+	border-radius: 8px;
+	font-weight: bold;
+	font-size: 1rem;
+	cursor: pointer;
+}
 
 
-	.tab {
-	  display: flex;
-	  justify-content: center;
-	  align-items: center;
-	  transform: rotate(270deg);
-	  writing-mode: vertical-lr;  /* 숫자를 위→아래 방향으로 세로 정렬 */
-	  font-size: 1.2rem;          /* 숫자 크기 키움 */
-	  font-weight: bold;
-	  width: 3em;
-	  height: 2.2em;
-	  background-color: #f7c59f;
-	  color: #000;
-	  border-radius: 8px;
-	  box-shadow: 1px 1px 3px rgba(0,0,0,0.1);
-	  border: 1px solid #e0a96d;
-	}
+.tab.active {
+	background-color: #ffab40;
+	color: #fff;
+}
 
 
-	.tab.special {
-	  background-color: #ffdede;
-	  font-size: 1.2em;
-	}
+
+
+.tab.special {
+	background-color: #ffdede;
+	font-size: 1.2em;
+}
+
+.top-row {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	gap: 0.8rem;
+	
+}
+
+#selected-date {
+	font-size: 3rem;
+	font-weight: bold;
+}
+
+#day-select {
+	font-size: 1em;
+	padding: 0.3em;
+	width: 100px;
+	
+}
+
+.diary-container {
+	display: flex;
+	align-items: flex-end;
+	gap: 1rem;
+}
+
+#diary-content {
+	width: 100%;
+	height: 500px;  /* textarea부분 높이 조절 */
+	resize: vertical;
+	padding: 1em;
+	font-size: 1rem;
+	line-height: 1.5;
+	border-radius: 8px;
+	border: 1px solid #ccc;
+	box-sizing: border-box;
+	flex-grow: 1;
+}
+
+#save-btn {
+	transition: background-color 0.2s ease;
+	margin-top: 0.5em;
+	align-self: flex-end;
+	padding: 0.6em 1.2em;
+	height: 48px;
+	font-size: 1rem;
+	border-radius: 8px;
+	background-color: #ffb978;
+	border: none;
+	cursor: pointer;
+}
+#save-btn:hover{
+	background-color: #ffa14a;
+}

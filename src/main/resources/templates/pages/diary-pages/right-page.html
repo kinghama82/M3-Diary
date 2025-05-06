@@ -1,8 +1,36 @@
-<div th:fragment="right-page" class="right-page">
-	<h2><메모></h2>
-	<ul>
-		<li>운동 30분</li>
-		<li>프로젝트 작업 마무리</li>
-		<li>친구에게 연락하기</li>
-	</ul>
+<div th:fragment="right-page" class="right-wrapper">
+  <!-- 오른쪽 다이어리 메모 영역 -->
+  <div class="right-page">
+    <!-- 상단: 날짜 텍스트 + 날짜 선택 드롭다운 -->
+    <div class="top-row">
+      <h2 id="selected-date">2025년 5월 6일</h2>
+      <select id="day-select"></select>
+    </div>
+
+	<div class="diary-container">
+		<!-- 메모 입력 textarea -->
+		<textarea id="diary-content" placeholder="메모를 입력하세요..."></textarea>
+
+		
+	</div>
+	<!-- 저장 버튼 -->
+			<button id="save-btn">저장</button>
+    
+  </div>
+
+  <!-- 오른쪽 수직 월 탭 -->
+  <div class="vertical-tabs">
+    <div class="tab" data-month="1"><span>1월</span></div>
+    <div class="tab" data-month="2"><span>2월</span></div>
+    <div class="tab" data-month="3"><span>3월</span></div>
+    <div class="tab" data-month="4"><span>4월</span></div>
+    <div class="tab" data-month="5"><span>5월</span></div>
+    <div class="tab" data-month="6"><span>6월</span></div>
+    <div class="tab" data-month="7"><span>7월</span></div>
+    <div class="tab" data-month="8"><span>8월</span></div>
+    <div class="tab" data-month="9"><span>9월</span></div>
+    <div class="tab" data-month="10"><span>10월</span></div>
+    <div class="tab" data-month="11"><span>11월</span></div>
+    <div class="tab" data-month="12"><span>12월</span></div>
+  </div>
 </div>

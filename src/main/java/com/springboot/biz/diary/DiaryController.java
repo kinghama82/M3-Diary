@@ -1,6 +1,7 @@
 package com.springboot.biz.diary;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
@@ -38,6 +39,16 @@ public class DiaryController {
 		
 		return post.map(ResponseEntity::ok)
 				.orElseGet(() -> ResponseEntity.noContent().build());
+	}
+	//해당 월의 메모 조회
+	@GetMapping("/list/{year}/{month}")
+	public ResponseEntity<?> memoList(@PathVariable(name = "year")int year,
+					@PathVariable(name = "month")int month,
+					Principal principal){
+		M3User user = m3Service.findByUsername(principal.getName());
+		List<Integer> memo = diaryService.getMemoList(year, month, user);
+		return ResponseEntity.ok(memo);
+		
 	}
 	
 	//메모 작성 수정
