@@ -47,6 +47,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     function renderJobBars() {
+        if (!window.favorites || !Array.isArray(window.favorites)) return;
+
+        // ID 기준 정렬 추가
+     /*   window.favorites.sort((a, b) => {
+            const aDuration = new Date(a.expirationDate) - new Date(a.postingDate);
+            const bDuration = new Date(b.expirationDate) - new Date(b.postingDate);
+            return bDuration - aDuration;
+        });*/
+        favorites.sort((a, b) => {
+            const dateDiff = new Date(a.postingDate) - new Date(b.postingDate);
+            if (dateDiff !== 0) return dateDiff;
+            return a.id - b.id;
+        });
+
         window.favorites.forEach(job => {
             const startDate = new Date(job.postingDate);
             const endDate = new Date(job.expirationDate);

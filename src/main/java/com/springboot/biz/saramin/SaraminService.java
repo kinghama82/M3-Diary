@@ -3,8 +3,8 @@ package com.springboot.biz.saramin;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springboot.biz.m3user.M3Repository;
+import com.springboot.biz.m3user.M3Service;
 import com.springboot.biz.m3user.M3User;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -26,8 +26,10 @@ public class SaraminService {
     @Value("${saramin.api-key}")   //env 설정 해주세요!!!!!!
     private String API_KEY;
 
+    private final M3Service m3Service;
     private final M3Repository m3Repository;
     private final SaraminRepository saraminRepository;
+    private final UserSaraminRepository userSaraminRepository;
 
     private final ObjectMapper objectMapper = new ObjectMapper();//json변환을 위한 키
 
@@ -37,7 +39,7 @@ public class SaraminService {
         }
 
         String encodedKeyword = URLEncoder.encode(keywords, "UTF-8"); //한글 + 5개만 보이게
-        String apiUrl = "https://oapi.saramin.co.kr/job-search?access-key=" + API_KEY + "&keywords=" + encodedKeyword + "&count=30";
+        String apiUrl = "https://oapi.saramin.co.kr/job-search?access-key=" + API_KEY + "&keywords=" + encodedKeyword + "&count=100";
         //localhost:8080/saramin/search?keywords=직업
         URL url = new URL(apiUrl);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -196,4 +198,32 @@ private String convertTimestamp(String timestampStr) {
         return "-";
     }
 }
+
+   public void apply(Integer id, boolean applied){
+        Saramin saramin = saraminRepository.findById(id)
+                .orElseThrow(()->new IllegalArgumentException("공고 없음"));
+        saramin.setApplied(applied);
+        saraminRepository.save(saramin);
+   }
+
+
+    public void updateAppliedStatus(String username, Integer saraminId, boolean applied) {
+        M3User user = m3Service.findByUsername(username);
+        Saramin saramin = saraminRepository.findById(saraminId)
+                .orElseThrow(() -> new RuntimeException("공고 없음"));
+
+        UserSaramin userSaramin = userSaraminRepository.findByM3UserAndSaramin(user, saramin)
+                .orElseGet(() -> {
+                    System.out.println("신규 UserSaramin 생성");
+                    UserSaramin newEntry = new UserSaramin();
+                    newEntry.setM3User(user);
+                    newEntry.setSaramin(saramin);
+                    return newEntry;
+                });
+
+        userSaramin.setApplied(applied);
+        userSaraminRepository.save(userSaramin);
+        System.out.println("지원 여부 저장됨 -> applied: " + applied);
+    }
+
 }

@@ -1,4 +1,32 @@
 <div th:fragment="left-page" class="left-page">
-	<h2><즐겨찾기 리스트></h2>
-	<p>즐겨찾기한 정책이 이부분에 리스트 형식으로</p>
+    <h2>
+        <즐겨찾기 리스트>
+    </h2>
+    <div th:each="dto : ${favorites}" class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title" th:text="${dto.positionTitle}"></h5>
+            <p th:text="'마감일: ' + ${dto.expirationDate}"></p>
+            <p th:text="'DTO ID: ' + ${dto.id}"></p>
+
+            <a th:href="${dto.url}" target="_blank">공고 바로가기</a>
+
+            <div class="position-absolute bottom-0 end-0 m-3 d-flex gap-2">
+                <button type="button"
+                        class="btn btn-success btn-sm apply-btn"
+                        th:attr="data-saramin-id=${dto.id}">
+                    지원
+                </button>
+                <button type="button"
+                        class="btn btn-secondary btn-sm cancel-btn"
+                        th:attr="data-saramin-id=${dto.id}">
+                    미지원
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
 </div>
+
+

@@ -34,6 +34,8 @@ public class Saramin {
 
     private String url;
 
+    private boolean applied; //지원 , 미지원숭이
+
     /*즐겨찾기*/
     @ManyToMany(mappedBy = "favoriteSaramins")
     @JsonIgnore

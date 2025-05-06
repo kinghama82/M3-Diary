@@ -19,15 +19,36 @@ public class SaraminController {
 
     private final SaraminService saraminService;
     private final M3Service m3Service;
+    private final UserSaraminRepository userSaraminRepository;
 
 
     @GetMapping("/search")
-    public String search(@RequestParam(defaultValue = "") String keywords, Model model) throws Exception {
-        /*List<Saramin> jobs = saraminService.getJobsFromApiAndSave(keywords); */
-        List<Map<String, String>> jobs = saraminService.getJobsFromApi(keywords); //  저장 안됨
+    public String search(@RequestParam(defaultValue = "") String keywords,
+                         @RequestParam(defaultValue = "0") int page, Model model) throws Exception {
+
+        List<Map<String, String>> alljobs = saraminService.getJobsFromApi(keywords); //  저장 안됨
+
+        int pageSize =10;
+        int start = page * pageSize;
+        int end = Math.min(start + pageSize, alljobs.size());
+        List<Map<String ,String>> jobs = alljobs.subList(start,end);
+        int totalPages = (int) Math.ceil((double) alljobs.size() / pageSize);
+
         model.addAttribute("jobs", jobs);
         model.addAttribute("keywords", keywords);
-        return "saramin_list"; // ← HTML에 job.id 사용 가능
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPages);
+
+        return "saramin_list";
+    }
+    @PostMapping("/saramin/update-applied")
+    @ResponseBody
+    public String updateApplied(@RequestParam("saraminId") Integer id,
+                                @RequestParam("applied") boolean applied,
+                                Principal principal) {
+        Integer userId = m3Service.findByUsername(principal.getName()).getUserSeq();
+        userSaraminRepository.updateApplied(userId, id, applied);
+        return "상태 변경 완료";
     }
 
 

@@ -1,24 +1,21 @@
 package com.springboot.biz.saramin;
 
 
+
+
+import com.springboot.biz.m3user.M3User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
-
 
 import java.util.List;
 import java.util.Optional;
 
-@Repository
-public interface SaraminRepository extends JpaRepository<Saramin,Integer> {
-
-    List<Saramin> findByKeywords(String keywords);
-
-    Optional<Saramin> findByUrl(String url);
+public interface UserSaraminRepository extends JpaRepository<UserSaramin, Long> {
+    Optional<UserSaramin> findByM3UserAndSaramin(M3User m3User, Saramin saramin);
+    List<UserSaramin> findAllByM3User(M3User m3User);
 
 
     @Transactional
@@ -27,5 +24,4 @@ public interface SaraminRepository extends JpaRepository<Saramin,Integer> {
     void updateApplied(@Param("userSeq") Integer userSeq,
                        @Param("saraminId") Integer saraminId,
                        @Param("applied") boolean applied);
-
 }

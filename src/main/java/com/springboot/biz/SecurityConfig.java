@@ -25,7 +25,7 @@ public class SecurityConfig {
                         .ignoringRequestMatchers("/api/**")) //이거 맞겠징
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/api/login", "/user/signup", "/css/**", "/js/**",
-                                "/saramin/**","/api/gov/list","/gov/list"   ).permitAll()
+                                "/saramin/**","/api/gov/list","/saramin/update-applied","/gov/list","/saramin/**"   ).permitAll()
                         .requestMatchers("/api/gov/bookmark").authenticated()
                         .anyRequest().authenticated()
                 )

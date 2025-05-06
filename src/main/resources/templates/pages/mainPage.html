@@ -2,29 +2,30 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/layout}">
 <head>
-  <title>mainPage</title>
+  <title>횐영합니다. 취업 다이어리 입니다.</title>
   <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
 </head>
 <body>
 <div layout:fragment="content" class="container my-5">
-
+  <a th:href="@{/diary}">다이어리 임시버튼</a>
   <div class="d-flex justify-content-center">
     <div class="row border rounded shadow" style="max-width: 700px; width: 100%; height: 370px;">
 
 <!--버튼 만들고 높이 조절해서 박스 칸 맞춰주세용-->
 
+
       <!-- 왼쪽 세션 박스 -->
       <div class="col-md-4 d-flex flex-column justify-content-between p-0">
         <div class="flex-fill bg-success text-white text-center d-flex align-items-center justify-content-center">
-          <div>클릭!<br><small><a th:href="@{/saramin/search}"> 사람인 </a> </small></div>
-
+          <div>클릭!<br><small><a th:href="@{/saramin/search}" class="text-white"> 사람인 </a> </small></div>
         </div>
+
         <div class="flex-fill bg-primary text-white text-center d-flex align-items-center justify-content-center">
           <div>클릭!<br><small><a th:href="@{/gov/list}" class="text-white">정부 정책</a></small></div>
         </div>
 
-        <div class="flex-fill bg-warning text-black text-center d-flex align-items-center justify-content-center">
-          <div>클릭!<br><small><a th:href="@{/calendar}">취업 달력</a></small></div>
+        <div class="flex-fill bg-warning text-white text-center d-flex align-items-center justify-content-center">
+          <div>클릭!<br><small><a th:href="@{/calendar}" class="text-white">취업 달력</a></small></div>
         </div>
       </div>
 

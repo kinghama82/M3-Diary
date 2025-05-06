@@ -1,6 +1,7 @@
 package com.springboot.biz.m3user;
 
 
+import com.springboot.biz.calendar.SaraminCalendarDto;
 import com.springboot.biz.saramin.Saramin;
 import com.springboot.biz.saramin.SaraminDto;
 import jakarta.validation.Valid;
@@ -12,6 +13,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -65,18 +69,21 @@ public class M3Controller {
 
         return "pages/mainPage";
     }
-    /*즐겨찾기 목록*/
+
     @PostMapping("/favorite/save")
-    public String saveFavorite(@ModelAttribute SaraminDto dto, Principal principal,
-                               @RequestHeader(value = "referer", required = false) String referer) {
+    @ResponseBody
+    public String saveFavorite(@ModelAttribute SaraminDto dto, Principal principal) {
         Integer userId = m3Service.findByUsername(principal.getName()).getUserSeq();
-        m3Service.saveFavoriteSaramin(userId, dto);
-        return "redirect:" + (referer != null ? referer : "/saramin/search");
+        boolean added = m3Service.saveFavoriteSaramin(userId, dto); // true면 찜, false면 해제
+        return added ? "공고가 찜되었습니다." : "공고가 해제되었습니다.";
     }
     @GetMapping("/gov/list")
     public String policyPage() {
         return "pages/policy";  // templates/pages/policy.html 로 이동
     }
+
+
+
 
 
 

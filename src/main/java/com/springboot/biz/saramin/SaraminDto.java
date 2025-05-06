@@ -9,6 +9,8 @@ import java.util.List;
 @Getter
 @Setter
 public class SaraminDto {
+
+
     private String companyName;
 
     private String positionTitle;
