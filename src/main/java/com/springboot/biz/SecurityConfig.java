@@ -24,7 +24,9 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf
                         .ignoringRequestMatchers("/api/**")) //이거 맞겠징
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/api/login", "/user/signup", "/css/**", "/js/**").permitAll()
+                        .requestMatchers("/", "/api/login", "/user/signup", "/css/**", "/js/**",
+                                "/saramin/**","/api/gov/list","/gov/list"   ).permitAll()
+                        .requestMatchers("/api/gov/bookmark").authenticated()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form

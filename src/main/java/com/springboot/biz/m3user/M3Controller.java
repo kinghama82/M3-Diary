@@ -73,6 +73,10 @@ public class M3Controller {
         m3Service.saveFavoriteSaramin(userId, dto);
         return "redirect:" + (referer != null ? referer : "/saramin/search");
     }
+    @GetMapping("/gov/list")
+    public String policyPage() {
+        return "pages/policy";  // templates/pages/policy.html 로 이동
+    }
 
 
 
