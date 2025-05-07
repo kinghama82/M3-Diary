@@ -6,7 +6,9 @@ import com.springboot.biz.m3user.M3User;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,8 +27,8 @@ public class ListController {
 
     // 다이어리 페이지 - 즐겨찾기 공고 리스트 조회
     @GetMapping("/diary")
-    public String diaryList(Model model, @AuthenticationPrincipal UserDetails userDetails) {
-        M3User user = m3Service.findByUsername(userDetails.getUsername());
+    public String diaryList(Model model) {
+        M3User user = m3Service.findByUsername(getLoginUsername());
         List<UserSaramin> favorites = m3Service.getFavoriteSaramins(user.getUserSeq());
 
         List<SaraminCalendarDto> dtos = favorites.stream()
@@ -47,6 +49,23 @@ public class ListController {
 
 
         return "redirect:/diary"; // 다시 다이어리로 리디렉트
+    }
+    
+    //로그인 사용자 이름 추출
+    private String getLoginUsername() {
+    	Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    
+    	if(principal instanceof UserDetails userDetails) {
+    		return userDetails.getUsername();
+    	}else if(principal instanceof OAuth2User oAuth2User) {
+    		return oAuth2User.getAttribute("email");
+    	}else if(principal instanceof String str) {
+    		return str;
+    	}else {
+    		throw new RuntimeException("인증되지 않은 사용자 입니다");
+    	}
+    	
+    
     }
 
 
