@@ -1,34 +1,64 @@
 
-button.btn {
-    border: none;
-    background: none;
-    font-size: 24px;
-    cursor: pointer;
+.btn-cust {
+    height: 30px;  /* 버튼 높이 */
+    width: 30px;   /* 버튼 너비 */
+    padding: 0;
+    line-height: 1;  /* 아이콘 크기 조정 */
+    font-size: 13px;
 }
-
+.container-cust {
+    width: 80%;
+    max-width: 1000px; /* 최대 너비 */
+    min-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
 
 body {
-    font-family: Arial, sans-serif;
-    padding: 20px;
-    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+    background: url('/images/calendar_background.jpg') no-repeat center center fixed;
+    /* 이미지 파일 경로 */
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;  /* 최소 높이를 화면 높이로 설정 */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+.month-navigation {
+    text-align: center;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;  /* 간격 조정 */
+
 }
 
-.calendar {
+.calendar-cust {
     max-width: 1000px;
     margin: auto;
-}
+    display: flex;
+    flex-direction: column;
 
-.calendar-header {
+
+}
+.calendar-cust-header {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    background-color: #f0f0f0;
+    grid-template-columns: repeat(7, 1fr);/*줄에 7칸*/
+    background-color: rgba(240, 240, 240, 0.18);
     font-weight: bold;
     text-align: center;
+    line-height: 50px;
+    height: 50px;
 }
 
 .day {
     padding: 8px;
-    border: 1px solid #ddd;
+    border: 1px solid rgba(221, 221, 221, 0.03);
 }
 
 .week-row {
@@ -39,7 +69,8 @@ body {
 }
 
 .cell {
-    height: 180px;              /* ✅ 고정 높이 설정 */
+    height: 150px;
+
     overflow: hidden;
     position: relative;
 }
