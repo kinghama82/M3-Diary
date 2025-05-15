@@ -1,78 +1,72 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/layout}">
+	layout:decorate="~{layout/layout}">
+
 <head>
-  <title>횐영합니다. 취업 다이어리 입니다.</title>
-  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+	<title>환영합니다. 취업 다이어리 입니다.</title>
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
 </head>
+
 <body>
 <div layout:fragment="content" class="container my-5">
-  <a th:href="@{/diary}">다이어리 임시버튼</a>
-  <div class="d-flex justify-content-center">
-    <div class="row border rounded shadow" style="max-width: 700px; width: 100%; height: 370px;">
 
-<!--버튼 만들고 높이 조절해서 박스 칸 맞춰주세용-->
+	<!-- 다이어리 배경 이미지 -->
+	<div class="background-container">
+		
+	</div>
 
+	<div class="main-layout">
+		<!-- 왼쪽 큰 2단 박스 -->
+		<div class="left-section">
+			<div class="top-box">
+			<!-- 위쪽 컨텐츠 (예: 이미지, 소개 등) -->
+			
+			</div>
 
-      <!-- 왼쪽 세션 박스 -->
-      <div class="col-md-4 d-flex flex-column justify-content-between p-0">
-        <div class="flex-fill bg-success text-white text-center d-flex align-items-center justify-content-center">
-          <div>클릭!<br><small><a th:href="@{/saramin/search}" class="text-white"> 사람인 </a> </small></div>
-        </div>
+			<div class="bottom-box">
+				<!-- 로그인 박스 -->
+				<div th:if="${#authentication == null or #authentication.name == 'anonymousUser'}">
+					<form th:action="@{/user/login}" method="post" class="login-box">
+						<h3 class="mb-4 text-center text-white">로그인</h3>
+						<input type="text" name="username" class="form-control mb-2" placeholder="아이디" required>
+						<input type="password" name="password" 
+						  	   class="form-control mb-3" placeholder="비밀번호"
+							   required>
+						<div class="text-center">
+							<button type="submit" class="btn btn-outline-dark btn-sm">로그인</button>
+							<a href="/oauth2/authorization/naver">
+								<img src="https://static.nid.naver.com/oauth/big_g.PNG" alt="네이버 로그인"
+									 style="height:33px;">
+							</a>
+						</div>
+						<div class="text-end mt-2">
+							<a href="/user/signup" class="btn btn-outline-dark btn-sm">회원가입</a>
+						</div>
+					</form>
+				</div>
+				<!-- 로그인 된 경우 -->
+				<div th:if="${#authentication != null and #authentication.name != 'anonymousUser'}"
+					 class="login-box text-center">
+					<p><b th:text="${#authentication.name}"></b> 님 환영합니다!</p>
+					<form th:action="@{/logout}" method="post" class="d-inline">
+						<button type="submit" 
+								class="btn btn-outline-primary btn-sm"
+								style="font-weight: bold;">로그아웃</button>
+					</form>
+				</div>
+			</div>
+		</div>
 
-        <div class="flex-fill bg-primary text-white text-center d-flex align-items-center justify-content-center">
-          <div>클릭!<br><small><a th:href="@{/gov/list}" class="text-white">정부 정책</a></small></div>
-        </div>
+		<!-- 오른쪽 버튼 박스 -->
+		<div class="right-section">
+			<a th:href="@{/saramin/search}" class="side-button bg-success text-white">사람인</a>
+			<a th:href="@{/gov/list}" class="side-button bg-primary text-white">정부 정책</a>
+			<a th:href="@{/calendar}" class="side-button bg-warning text-white">취업 달력</a>
+			<a th:href="@{/diary}" class="side-button bg-info text-white">다이어리</a>
+		</div>
 
-        <div class="flex-fill bg-warning text-white text-center d-flex align-items-center justify-content-center">
-          <div>클릭!<br><small><a th:href="@{/calendar}" class="text-white">취업 달력</a></small></div>
-        </div>
-      </div>
-
-      <!-- 오른쪽 로그인/유저 정보 박스 -->
-      <div class="col-md-8 p-3 d-flex flex-column justify-content-between">
-
-        <!-- 로그인 안 된 경우 -->
-        <div th:if="${#authentication == null or #authentication.name == 'anonymousUser'}">
-          <form th:action="@{/user/login}" method="post">
-            <h3 class="mb-4 text-center">로그인</h3>
-
-            <div class="mb-2">
-              <label for="username" class="form-label">아이디</label>
-              <input type="text" id="username" name="username" class="form-control" required>
-            </div>
-
-            <div class="mb-3">
-              <label for="password" class="form-label">비밀번호</label>
-              <input type="password" id="password" name="password" class="form-control" required>
-            </div>
-
-            <!--로그인 버튼만 합쳐놓았습니다.-->
-            <div class="text-center">
-              <button type="submit" class="btn btn-outline-dark btn-sm">로그인</button>
-              <a href="/oauth2/authorization/naver">
-                <img src="https://static.nid.naver.com/oauth/big_g.PNG" alt="네이버 로그인" style="height:33px;">
-              </a>
-            </div>
-
-
-            <div class="text-end mt-2">
-              <a href="/user/signup" class="btn btn-outline-primary btn-sm">회원가입</a>
-            </div>
-          </form>
-      </div>
-
-        <!-- 로그인 된 경우 -->
-        <div th:if="${#authentication != null and #authentication.name != 'anonymousUser'}" class="text-center mt-auto">
-          <p><b th:text="${#authentication.name}"></b> 님 환영합니다!</p>
-          <form th:action="@{/logout}" method="post" class="d-inline">
-            <button type="submit" class="btn btn-outline-secondary btn-sm">로그아웃</button> <!--GET방식에서 POST방식으로 수정-->
-          </form>
-        </div>
-
-      </div>
-  </div>
-
+	</div>
 </div>
 </body>
+
 </html>

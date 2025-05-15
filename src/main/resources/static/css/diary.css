@@ -30,14 +30,14 @@ body {
 	height: 80vh;
 	/* 전체 높이의 60% */
 	display: flex;
-	justify-content: space-between;
+	/*justify-content: space-between;*/
 	/* 좌우 페이지 분할 */
 }
 
 /* 왼쪽 페이지 콘텐츠 영역 */
 .left-page,
 .right-page {
-	width: 48%;
+	width: 50%;
 	height: 100%;
 	background-color: rgba(255, 255, 255, 0.5);
 	/* 반투명 배경으로 가독성 확보 */

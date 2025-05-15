@@ -24,7 +24,7 @@ public class SaraminController {
 
     @GetMapping("/search")
     public String search(@RequestParam(name = "keywords",defaultValue = "") String keywords,
-                         @RequestParam(defaultValue = "0") int page, Model model) throws Exception {
+                         @RequestParam(name = "page",defaultValue = "0") int page, Model model) throws Exception {
 
         List<Map<String, String>> alljobs = saraminService.getJobsFromApi(keywords); //  저장 안됨
 
