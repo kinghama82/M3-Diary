@@ -14,6 +14,7 @@ public interface DiaryRepository extends JpaRepository<Diary, Integer>{
 	//월별 메모 리스트
 	List<Diary> findByYearAndMonthAndM3user(int year, int month, M3User user);
 
+	Optional<Diary> findByM3userAndYearAndMonthAndDay(M3User user, int year, int month, int day);
 
 
 }

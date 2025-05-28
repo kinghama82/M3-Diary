@@ -5,16 +5,13 @@ body {
 	background: url('/images/diary_background.jpg') no-repeat center center fixed;
 	/* 이미지 파일 경로 */
 	background-size: cover;
-	/* ✅ 양옆까지 꽉 차게 */
+	
 	background-attachment: fixed;
 	background-position: center;
 	background-repeat: no-repeat;
 	width: 100vw;
-	/* ✅ 가로 전체 채움 */
 	height: 100vh;
-	/* ✅ 세로 전체 채움 */
 	overflow-x: hidden;
-	/* ✅ 좌우 스크롤 제거 */
 }
 
 /* 다이어리 위에 콘텐츠를 올릴 수 있도록 중앙 고정 컨테이너 */
@@ -169,4 +166,19 @@ body {
 }
 #save-btn:hover{
 	background-color: #ffa14a;
+}
+#delete-btn {
+	transition: background-color 0.2s ease;
+	margin-top: 0.5em;
+	align-self: flex-end;
+	padding: 0.6em 1.2em;
+	height: 48px;
+	font-size: 1rem;
+	border-radius: 8px;
+	background-color: #FF7E7E;
+	border: none;
+	cursor: pointer;
+}
+#delete-btn:hover{
+	background-color: #FF5A5A;
 }

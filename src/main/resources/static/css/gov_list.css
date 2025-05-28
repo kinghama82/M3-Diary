@@ -1,0 +1,28 @@
+body {
+	margin: 0;
+	padding: 0;
+	background: url('/images/diary_background.jpg') no-repeat center center fixed;
+	/* 이미지 파일 경로 */
+	background-size: cover;
+	
+	background-attachment: fixed;
+	background-position: center;
+	background-repeat: no-repeat;
+	width: 100vw;
+	height: 100vh;
+	overflow-x: hidden;
+	overflow-y: hidden;
+}
+.container{
+	position: absolute;
+		top: 57%;
+		/* 수직 중앙 정렬 */
+		left: 48.5%;
+		/* 수평 중앙 정렬 */
+		transform: translate(-50%, -50%);
+		width: 100vw;
+		/* 전체 가로 너비의 80% */
+		height: 100vh;
+		/* 전체 높이의 60% */
+		display: 1;
+}

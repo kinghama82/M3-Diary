@@ -5,10 +5,11 @@
 <head>
 	<meta charset="UTF-8">
 	<title>정부정책리스트</title>
+	<link rel="stylesheet" th:href="@{/css/gov_list.css}">
 </head>
 
 <body>
-	<div layout:fragment="content" class="container my-5">
+	<div layout:fragment="content" class="container">
 		<div>
 			<div class="mb-2">
 				<!-- 드롭다운 메뉴 -->
@@ -41,7 +42,7 @@
 				<h6 ><strong>담당 기관은 지역 선택과는 무관하며 여러 지역에 걸쳐 시행하는 정책의 경우 담당기관과 지역 이름이 다를 수 있습니다.</strong></h6>
 			</div>
 
-			<table style="width: 100%;">
+			<table>
 				<thead>
 					<tr class="text-center">
 						<th class="border border-black">번호</th>

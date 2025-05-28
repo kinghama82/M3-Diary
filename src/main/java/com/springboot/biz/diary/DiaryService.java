@@ -6,9 +6,9 @@ import java.util.Optional;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import com.springboot.biz.m3user.M3Repository;
 import com.springboot.biz.m3user.M3User;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -42,6 +42,14 @@ public class DiaryService {
             
         }
     }
+	//삭제
+	public void delete(int year, int month, int day, M3User user) {
+		Diary diary = diaryRepository.findByM3userAndYearAndMonthAndDay(user, year, month, day)
+						.orElseThrow(() -> new IllegalArgumentException("메모가 존재하지 않습니다"));
+		
+		diaryRepository.delete(diary);
+	}
+	
 	//메모리스트
 	public List<Integer> getMemoList(int year, int month, M3User user){
 		List<Diary> posts = diaryRepository.findByYearAndMonthAndM3user(year, month, user);

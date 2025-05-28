@@ -1,6 +1,5 @@
 package com.springboot.biz.diary;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -75,6 +75,23 @@ public class DiaryController {
 					.status(HttpStatus.CONFLICT)  //409
 					.body(e.getMessage());
 		}        
+    }
+    
+    //메모 삭제
+    @DeleteMapping("/{year}/{month}/{day}")
+    public ResponseEntity<?> deleteDiary(@PathVariable(name = "year")int year,
+    									@PathVariable(name = "month")int month,
+    									@PathVariable(name = "day")int day){
+    	M3User m3User = getLoginUser();
+    	
+    	try {
+			diaryService.delete(year, month, day, m3User);
+			return ResponseEntity.noContent().build();
+		} catch (IllegalArgumentException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 메모가 없습니다");
+		} catch (SecurityException e) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("권한이 없습니다");
+		}    	
     }
 
     //로그인 유저 구분
